@@ -442,7 +442,7 @@ class Analizador:
             L_tokens.TK_MENOR.value,    # <
             L_tokens.TK_E_FUNCION.value, # Funcion
             L_tokens.TK_IGUAL.value, # =
-            L_tokens.TK_ESCRIBIR.value, #Funcion
+            L_tokens.TK_ESCRIBIR.value, #Escribir
             L_tokens.TK_MAYOR.value,    # >
             L_tokens.TK_MENOR.value,    # <
             L_tokens.TK_E_TITULO.value,  #Titulo
@@ -451,38 +451,6 @@ class Analizador:
             L_tokens.TK_MENOR.value,    # <
             L_tokens.TK_BARRAINV.value, # /
             L_tokens.TK_E_TITULO.value, # Titulo
-            L_tokens.TK_MAYOR.value     # >
-        ]
-        _numero = ""
-
-        for i in tokens:
-            try:
-                patron = re.compile(f'^{i}')
-                s = patron.search(_cadena)
-                print("| ", self.linea, " | ", self.columna, " | ", s.group())
-                if i == "OPERACIONES":
-                    funcion.append(s.group())
-                self.columna += int(s.end())
-                # GUARDAR EL TOKEN
-                _cadena = self.quitar(_cadena, s.end())
-                self.aumentarLinea()
-            except:
-                # GUARDAR ERROR
-                print("Ocurrio un error")
-                return {'resultado':_numero, "cadena":_cadena, "Error": True}
-        self.Estilo(_cadena)
-
-    def Estilo(self, _cadena : str):
-        tokens = [
-            L_tokens.TK_MENOR.value,    # <
-            L_tokens.TK_E_FUNCION.value, # Texto
-            L_tokens.TK_IGUAL.value, # =
-            L_tokens.TK_ESCRIBIR.value, #Funcion
-            L_tokens.TK_MAYOR.value,    # >
-            L_tokens.TK_TEXTO.value,         # Hola como estas
-            L_tokens.TK_MENOR.value,    # <
-            L_tokens.TK_BARRAINV.value, # /
-            L_tokens.TK_E_TEXTO.value, # Texto
             L_tokens.TK_MAYOR.value     # >
         ]
         _numero = ""
@@ -502,13 +470,46 @@ class Analizador:
                 # GUARDAR ERROR
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
+        # self.Estilo(_cadena)
+
+    # def Estilo(self, _cadena : str):
+    #     tokens = [
+    #         L_tokens.TK_MENOR.value,    # <
+    #         L_tokens.TK_E_FUNCION.value, # Texto
+    #         L_tokens.TK_IGUAL.value, # =
+    #         L_tokens.TK_ESCRIBIR.value, #Funcion
+    #         L_tokens.TK_MAYOR.value,    # >
+    #         L_tokens.TK_TEXTO.value,         # Hola como estas
+    #         L_tokens.TK_MENOR.value,    # <
+    #         L_tokens.TK_BARRAINV.value, # /
+    #         L_tokens.TK_E_TEXTO.value, # Texto
+    #         L_tokens.TK_MAYOR.value     # >
+    #     ]
+    #     _numero = ""
+
+    #     for i in tokens:
+    #         try:
+    #             patron = re.compile(f'^{i}')
+    #             s = patron.search(_cadena)
+    #             print("| ", self.linea, " | ", self.columna, " | ", s.group())
+    #             if i == L_tokens.TK_TEXTO.value:
+    #                 datos.append(s.group())
+    #             self.columna += int(s.end())
+    #             # GUARDAR EL TOKEN
+    #             _cadena = self.quitar(_cadena, s.end())
+    #             self.aumentarLinea()
+    #         except:
+    #             # GUARDAR ERROR
+    #             print("Ocurrio un error")
+    #             return {'resultado':_numero, "cadena":_cadena, "Error": True}
 
     def Tipo(self, _cadena : str):
         tokens = [
             L_tokens.TK_MENOR.value,        # <
             L_tokens.TK_E_TIPO.value,       # Tipo
             L_tokens.TK_MAYOR.value,        # >
-            L_tokens.TK_TITULO.value,                  # OPERACIONES
+            L_tokens.TK_TITULO.value,
+            "OPERACIONES",                  # OPERACIONES
             L_tokens.TK_MENOR.value,        # <
             L_tokens.TK_BARRAINV.value,     # /
             L_tokens.TK_E_TIPO.value,       # Tipo
@@ -586,7 +587,7 @@ class Analizador:
                 nueva=lista_cadena[x+1]
                 r=2
                 while lista_cadena[x+r]!="</Texto>\n":
-                    nueva+="<p style='color:blue;'>"+lista_cadena[x+r]
+                    nueva+="<p style='color:green; font-size:10px;'>"+lista_cadena[x+r]
                     r+=1
 
         print(nueva_cadena)
@@ -606,9 +607,10 @@ class Analizador:
         cadena+="       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
         cadena+="</head>\n"
         cadena += "    <body>\n"
-        cadena += '       <p style="color:blue;">'+nueva+"</p>\n"
+        cadena += '         <h1 style="color:blue;font-size:20px;">'+"<center>"+"<FONT FACE='arial'>"+"Operaciones simples"+"</center>"+"</FONT>"+"</h1>\n"
+        cadena += '         <p style="color:green;font-size:10px;">'+"<FONT FACE='arial'>"+nueva+"</FONT>"+"</p>\n"
         for i in result:
-            cadena +="        <h1>"+str(i)+"</h1>\n"
+            cadena +='          <p style="color:red;font-size:10px;">'+"<FONT FACE='arial'>"+str(i)+"</p>\n"
         cadena +="    <body>\n"
         cadena +="</html>\n"
         r.writelines(cadena)

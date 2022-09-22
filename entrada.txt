@@ -1,47 +1,53 @@
 <Tipo>
-<Operacion=SENO>
-        <Numero >30</Numero>
-</Operacion>
-<Operacion=COSENO>
-        <Numero >60</Numero>
-</Operacion>
-<Operacion=TANGENTE>
-        <Numero >60</Numero>
-</Operacion>
-<Operacion=INVERSO>
-        <Numero >2</Numero>
-</Operacion>
-<Operacion=POTENCIA>
-        <Numero >2</Numero>
-        <Numero >2</Numero>
-</Operacion>
-<Operacion=RAIZ>
-        <Numero >9</Numero>
-        <Numero >2</Numero>
-</Operacion>
 <Operacion=SUMA>
-        <Numero >30</Numero>
-        <Numero >40</Numero>
+    <Numero>50</Numero>
+    <Numero>25</Numero>
 </Operacion>
-<Operacion=MOD>
-        <Numero >14</Numero>
-        <Numero >5</Numero>
-</Operacion>
-<Operacion=SUMA>
-        <Numero >50</Numero>
-        <Numero >40</Numero>
-</Operacion>
-<Operacion=MULTIPLICACION>
-        <Numero >50</Numero>
-        <Numero >40</Numero>
-</Operacion>
-<Operacion=DIVISION>
-        <Numero >50</Numero>
-        <Numero >40</Numero>
-</Operacion>
+
 <Operacion=RESTA>
-        <Numero >50</Numero>
-        <Numero >40</Numero>
+    <Numero>20</Numero>
+    <Numero>5</Numero>
+</Operacion>
+
+<Operacion=MULTIPLICACION>
+    <Numero>20</Numero>
+    <Numero>4</Numero>
+</Operacion>
+
+<Operacion=DIVISION>
+    <Numero>500</Numero>
+    <Numero>25</Numero>
+</Operacion>
+
+<Operacion=POTENCIA>
+    <Numero>2</Numero>
+    <Numero>3</Numero>
+</Operacion>
+
+<Operacion=RAIZ>
+    <Numero>2</Numero>
+    <Numero>64</Numero>
+</Operacion>
+
+<Operacion=INVERSO>
+    <Numero>60</Numero>
+</Operacion>
+
+<Operacion=SENO>
+    <Numero>90</Numero>
+</Operacion>
+
+<Operacion=COSENO>
+    <Numero>90</Numero>
+</Operacion>
+
+<Operacion=TANGENTE>
+    <Numero>30</Numero>
+</Operacion>
+
+<Operacion=MOD>
+    <Numero>25</Numero>
+    <Numero>7</Numero>
 </Operacion>
 
 </Tipo>
@@ -62,3 +68,4 @@ OP10 TANGENTE: TAN(30) = 0.5773502692
 OP11 MOD: 25%7 = 3
 </Texto>
 <Funcion = ESCRIBIR>
+    <Titulo> Operaciones Simples </Titulo>
