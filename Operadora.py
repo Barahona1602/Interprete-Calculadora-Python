@@ -1,6 +1,7 @@
 from ast import For, Str
 import itertools
 from tkinter import *
+import webbrowser
 import pandas as pd
 import tkinter as tk
 import tkinter.font as tkFont
@@ -62,7 +63,6 @@ def guardar():
 
 
 
-
 #------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ def analizar():
 
 #Método para mostrar errores
 def errores():
-    print("Errores")
+    Analizador.htmlanalizar()
 
 
 
@@ -141,7 +141,8 @@ def salirPro():
 
 #Comando para mostrar manual de usuario
 def manualusuario():
-    print("Manual de usuario")
+    manualuser = 'I9-202100101-E1.pdf'
+    webbrowser.open_new(manualuser)
 
 
 
