@@ -2,7 +2,7 @@ from enum import Enum
 from lib2to3.pgen2 import token
 import re
 import math
-from sqlite3 import DateFromTicks
+
 
 class L_tokens(Enum):
     TK_MENOR = "<"
@@ -31,11 +31,14 @@ class L_tokens(Enum):
     TK_E_TITULO = "Titulo"
     TK_TITULO = "[a-zA-Z,À-ÿ\u00f1\u00d1,'+'-'-',''.'*',0.0-9.0,':','%','=','/','^','√','(',')','âˆš']*"
     TK_E_COLOR = "Color"
-    TK_COLOR = "['AZUL','VERDE','ROJO','AMARILLO','MORADO','ANARANJADO','NARANJA']"
+    TK_COLOR = "[a-z]*"
     TK_E_TAMANIO = "Tamanio"
-    TK_TAMANIO ="[0-9]*[.]?[0-9]+"
+    TK_TAMANIO ="[0-9]*"
     TK_E_DESCRIPCION="Descripcion"
+    TK_DESCRIPCION = "TEXTO"
     TK_E_CONTENIDO = "Contenido"
+    TK_CONTENIDO = "TIPO"
+    TK_E_ESTILO = "Estilo"
 
 
 class Analizador:
@@ -54,6 +57,18 @@ class Analizador:
         datos=[]
         global funcion 
         funcion = []
+        global tit
+        tit=[]
+        global colortz
+        colortz=[]
+        global tamañoletra 
+        tamañoletra=[]
+        global hola
+        hola=""
+        global errores 
+        errores=[]
+
+
 
     def quitar(self, _cadena :str, _num : int):
         _tmp = ""
@@ -447,22 +462,122 @@ class Analizador:
             L_tokens.TK_MENOR.value,    # <
             L_tokens.TK_E_TITULO.value,  #Titulo
             L_tokens.TK_MAYOR.value,    # >
-            "OPERACIONES",
+            L_tokens.TK_TITULO.value,   #Operaciones simples
             L_tokens.TK_MENOR.value,    # <
             L_tokens.TK_BARRAINV.value, # /
             L_tokens.TK_E_TITULO.value, # Titulo
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_DESCRIPCION.value, # Descripcion
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_DESCRIPCION.value,
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_E_DESCRIPCION.value, # Descripcion
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_CONTENIDO.value, # Contenido
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_CONTENIDO.value,
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_E_CONTENIDO.value, # Contenido
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_E_FUNCION.value, # Funcion
             L_tokens.TK_MAYOR.value     # >
         ]
         _numero = ""
+        global titulo
+        for i in tokens:
+            try:
+                patron = re.compile(f'^{i}')
+                s = patron.search(_cadena)
 
+                
+                print("| ", self.linea, " | ", self.columna, " | ", s.group())
+                global errorl
+                errorl=str(self.linea)
+                global errorc
+                errorc=str(self.columna)
+                global lex
+                lex=str(s.group())
+                if i == L_tokens.TK_TITULO.value:
+                    titulo=s.group()
+                self.columna += int(s.end())
+                # GUARDAR EL TOKEN
+                _cadena = self.quitar(_cadena, s.end())
+                self.aumentarLinea()
+            except:
+                # GUARDAR ERROR
+                errores.append("Fila: "+str(errorl)+"Columna: "+str(errorc)+"Lexema: "+str(lex))
+                print("Ocurrio un error")
+                # err='resultado: '+str(_numero)+"cadena: "+str(_cadena)+"Error: Sintaxis"
+                
+                
+                return {'resultado':_numero, "cadena":_cadena, "Error": True}
+            continue
+                
+        self.Estilo(_cadena)
+
+    def Estilo(self, _cadena : str):
+        tokens = [
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_ESTILO.value, # Estilo
+            L_tokens.TK_MAYOR.value,    # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_TITULO.value,  #Titulo
+            L_tokens.TK_E_COLOR.value,  #Color
+            L_tokens.TK_IGUAL.value,    #=
+            L_tokens.TK_COLOR.value,    #AZUL
+            L_tokens.TK_E_TAMANIO.value,  #TAMAÑO
+            L_tokens.TK_IGUAL.value,  #=
+            L_tokens.TK_TAMANIO.value,  #20
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_DESCRIPCION.value,  #Titulo
+            L_tokens.TK_E_COLOR.value,  #Color
+            L_tokens.TK_IGUAL.value,    #=
+            L_tokens.TK_COLOR.value,    #AZUL
+            L_tokens.TK_E_TAMANIO.value,  #TAMAÑO
+            L_tokens.TK_IGUAL.value,  #=
+            L_tokens.TK_TAMANIO.value,  #20
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_E_CONTENIDO.value,  #Titulo
+            L_tokens.TK_E_COLOR.value,  #Color
+            L_tokens.TK_IGUAL.value,    #=
+            L_tokens.TK_COLOR.value,    #AZUL
+            L_tokens.TK_E_TAMANIO.value,  #TAMAÑO
+            L_tokens.TK_IGUAL.value,  #=
+            L_tokens.TK_TAMANIO.value,  #20
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_MAYOR.value,     # >
+            L_tokens.TK_MENOR.value,    # <
+            L_tokens.TK_BARRAINV.value, # /
+            L_tokens.TK_E_ESTILO.value, # Estilo
+            L_tokens.TK_MAYOR.value,    # >
+        ]
+        _numero = ""
         for i in tokens:
             try:
                 patron = re.compile(f'^{i}')
                 s = patron.search(_cadena)
                 print("| ", self.linea, " | ", self.columna, " | ", s.group())
-                if i == L_tokens.TK_TEXTO.value:
-                    datos.append(s.group())
                 self.columna += int(s.end())
+
+
+                if i == L_tokens.TK_COLOR.value:
+                    colortz.append(s.group())
+
+
+                if i == L_tokens.TK_TAMANIO.value:
+                    tamañoletra.append(s.group())
+
+
                 # GUARDAR EL TOKEN
                 _cadena = self.quitar(_cadena, s.end())
                 self.aumentarLinea()
@@ -470,38 +585,6 @@ class Analizador:
                 # GUARDAR ERROR
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
-        # self.Estilo(_cadena)
-
-    # def Estilo(self, _cadena : str):
-    #     tokens = [
-    #         L_tokens.TK_MENOR.value,    # <
-    #         L_tokens.TK_E_FUNCION.value, # Texto
-    #         L_tokens.TK_IGUAL.value, # =
-    #         L_tokens.TK_ESCRIBIR.value, #Funcion
-    #         L_tokens.TK_MAYOR.value,    # >
-    #         L_tokens.TK_TEXTO.value,         # Hola como estas
-    #         L_tokens.TK_MENOR.value,    # <
-    #         L_tokens.TK_BARRAINV.value, # /
-    #         L_tokens.TK_E_TEXTO.value, # Texto
-    #         L_tokens.TK_MAYOR.value     # >
-    #     ]
-    #     _numero = ""
-
-    #     for i in tokens:
-    #         try:
-    #             patron = re.compile(f'^{i}')
-    #             s = patron.search(_cadena)
-    #             print("| ", self.linea, " | ", self.columna, " | ", s.group())
-    #             if i == L_tokens.TK_TEXTO.value:
-    #                 datos.append(s.group())
-    #             self.columna += int(s.end())
-    #             # GUARDAR EL TOKEN
-    #             _cadena = self.quitar(_cadena, s.end())
-    #             self.aumentarLinea()
-    #         except:
-    #             # GUARDAR ERROR
-    #             print("Ocurrio un error")
-    #             return {'resultado':_numero, "cadena":_cadena, "Error": True}
 
     def Tipo(self, _cadena : str):
         tokens = [
@@ -547,6 +630,7 @@ class Analizador:
                 # GUARDAR ERROR
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
+
         
         self.Texto(_cadena)
 
@@ -555,13 +639,16 @@ class Analizador:
     def compile(self):
         # LEEMOS EL ARCHIVO DE ENTRADA
         archivo = open(self.archivoimp, "r", encoding="utf-8")
+        global contenido
         contenido = archivo.readlines()
         archivo.close()
 
         
 
         # LIMPIAR MI ENTRADA
+        global nueva_cadena
         nueva_cadena = ""
+        global lista_cadena
         lista_cadena = []
         global nueva
         
@@ -571,24 +658,20 @@ class Analizador:
         for i in contenido:
             i = i.replace(' ', '') #QUITANDO ESPACIOS
             i = i.replace('\n', '') # QUITANDO SALTOS DE LINEA
+            i = i.replace('[','') 
+            i = i.replace(']','') 
+            i = i.replace('AZUL','blue')
+            i = i.replace('ANARANJADO','orange')
+            i = i.replace('NARANJA','orange')
+            i = i.replace('ROJO','red')
+            i = i.replace('AMARILLO','yellow')
+            i = i.replace('VERDE','green')
+            i = i.replace('MORADO','purple')
             if i != '':
                 nueva_cadena += i
                 lista_cadena.append(i)
        
-        for j in contenido:
-            if j!="":
-                lista_cadena.append(j)
-
-        r=0
-
-        for x in range(len(lista_cadena)):
-
-            if lista_cadena[x]=="<Texto>\n":
-                nueva=lista_cadena[x+1]
-                r=2
-                while lista_cadena[x+r]!="</Texto>\n":
-                    nueva+="<p style='color:green; font-size:10px;'>"+lista_cadena[x+r]
-                    r+=1
+        
 
         print(nueva_cadena)
         print(lista_cadena)
@@ -598,6 +681,25 @@ class Analizador:
         print(self.Tipo(nueva_cadena))
     
     def htmlanalizar():
+
+        for j in contenido:
+            if j!="":
+                lista_cadena.append(j)
+
+        r=0
+        
+        hola=colortz[1]
+
+        for x in range(len(lista_cadena)):
+
+            if lista_cadena[x]=="<Texto>\n":
+                nueva=lista_cadena[x+1]
+                r=2
+                while lista_cadena[x+r]!="</Texto>\n":
+                    nueva+='<p style=color:'+hola+';font-size:'+tamañoletra[1]+'px;>'+lista_cadena[x+r]+"</p>\n"
+                    r+=1
+
+
         r = open("Resultados_202109715.html","w+",encoding="utf-8")
         cadena="<!DOCTYPE html>\n"
         cadena+= "<html lang=\"es\">\n"
@@ -607,10 +709,10 @@ class Analizador:
         cadena+="       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
         cadena+="</head>\n"
         cadena += "    <body>\n"
-        cadena += '         <h1 style="color:blue;font-size:20px;">'+"<center>"+"<FONT FACE='arial'>"+"Operaciones simples"+"</center>"+"</FONT>"+"</h1>\n"
-        cadena += '         <p style="color:green;font-size:10px;">'+"<FONT FACE='arial'>"+nueva+"</FONT>"+"</p>\n"
+        cadena += '         <h1 style=color:'+colortz[0]+';font-size:'+tamañoletra[0]+'px;>'+"<center>"+"<FONT FACE='arial'>"+titulo+"</center>"+"</FONT>"+"</h1>\n"
+        cadena += '         <p style=color:'+colortz[1]+';font-size:'+tamañoletra[1]+'px;>'+"<FONT FACE='arial'>"+nueva+"</FONT>"+"</p>\n"
         for i in result:
-            cadena +='          <p style="color:red;font-size:10px;">'+"<FONT FACE='arial'>"+str(i)+"</p>\n"
+            cadena +='          <p style="color:'+colortz[2]+';font-size:10px;">'+"<FONT FACE='arial'>"+str(i)+"</p>\n"
         cadena +="    <body>\n"
         cadena +="</html>\n"
         r.writelines(cadena)
@@ -623,5 +725,60 @@ class Analizador:
         for i in (result):
             print (i)
 
+
+    def htmlerrores():
+        r = open("Errores_202109715.html","w+",encoding="utf-8")
+        cadena="<!DOCTYPE html>\n"
+        cadena+= "<html lang=\"es\">\n"
+        cadena+= "  <head>\n"
+        cadena+="       <meta charset=\"UTF-8\">\n"
+        cadena+="       <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
+        cadena+="       <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+        cadena+="</head>\n"
+        cadena += "    <body>\n"
+        cadena+="<FONT FACE='arial'>"
+        cadena += '''   <center>
+                        <style>
+                            .demo {
+                                border:1px sólido #000000;
+                                border-collapse:colapso;
+                                padding:5px;
+                            }
+                            .demo th {
+                                border:1px sólido #000000;
+                                padding:5px;
+                                background:#F0F0F0;
+                            }
+                            .demo td {
+                                border:1px sólido #000000;
+                                padding:5px;
+                            }
+                        </style>
+                        <table class="demo">
+                            <caption>Tabla de Errores</caption>
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Tipo</th>
+                                <th>Lexema</th>
+                                <th>Fila</th>
+                                <th>Columna</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            <td>&nbsp;1</td>
+                            <td>&nbsp;Error</td>'''
+        cadena+="                        <td>&nbsp;"+lex+"</td>"
+        cadena+="                        <td>&nbsp;"+errorl+"</td>"
+        cadena+="                        <td>&nbsp;"+errorc+"</td>"
+        cadena+='''                    </tr>
+                            </tbody>
+                        </table>
+                        </center>'''
+        cadena+="</FONT>"
+        cadena +="    <body>\n"
+        cadena +="</html>\n"
+        r.writelines(cadena)
 
 

@@ -55,8 +55,7 @@ def abrirArchivo():
 
 #Método para guardar archivo
 def guardar():
-    os.remove(nombrearchivo+".txt")
-    nuevoarchivo1=open(nombrearchivo+".txt","a")
+    nuevoarchivo1=open(nombrearchivo+".txt","w+",encoding='utf-8')
     nuevoarchivo1.writelines(cuadro.get("1.0","end-1c"))
 
 
@@ -86,7 +85,7 @@ def guardarcomo():
     def botonguardar():
         global nombrearchivo
         nombrearchivo=entry1.get()
-        nuevoarchivo1=open(nombrearchivo+".txt","a")
+        nuevoarchivo1=open(nombrearchivo+".txt","w+",encoding='utf-8')
         nuevoarchivo1.writelines(cuadro.get("1.0","end-1c"))
         print(nombrearchivo)
         MessageBox.showinfo("Guardar como", "Archivo guardado correctamente")
@@ -106,6 +105,7 @@ def guardarcomo():
 #Método para analizar 
 def analizar():
     Analizador(archivoimp=archivo1).compile()
+    Analizador.htmlanalizar()
 
 
 
@@ -118,7 +118,7 @@ def analizar():
 
 #Método para mostrar errores
 def errores():
-    Analizador.htmlanalizar()
+   Analizador.htmlerrores() 
 
 
 
