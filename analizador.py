@@ -2,6 +2,7 @@ from enum import Enum
 from lib2to3.pgen2 import token
 import re
 import math
+import webbrowser
 
 
 class L_tokens(Enum):
@@ -214,9 +215,11 @@ class Analizador:
                     #SENO
                     if self.op[0]=="SENO" and self.num==1:
                         print(math.sin(float(self.op[1])))
-                        results=(math.sin(float(self.op[1])))
+                        results=(math.sin(math.radians((float(self.op[1])))))
                         num1=(self.op[1])
                         operacion=self.op[0]
+                        if results<=0.00000001:
+                            results=0
                         locacion=(operacion +": " + " SIN(" + num1 + ")"+" = " + str(results))
                         result.append(locacion)
 
@@ -225,9 +228,11 @@ class Analizador:
                     #COSENO
                     if self.op[0]=="COSENO" and self.num==1:
                         print(math.cos(float(self.op[1])))
-                        results=(math.cos(float(self.op[1])))
+                        results=(math.cos(math.radians((float(self.op[1])))))
                         num1=(self.op[1])
                         operacion=self.op[0]
+                        if results<=0.00000001:
+                            results=0
                         locacion=(operacion +": " + " COS(" + num1 + ")"+" = " + str(results))
                         result.append(locacion)
 
@@ -236,9 +241,11 @@ class Analizador:
                     #TANGENTE
                     if self.op[0]=="TANGENTE" and self.num==1:
                         print(math.tan(float(self.op[1])))
-                        results=(math.tan(float(self.op[1])))
+                        results=(math.tan(math.radians((float(self.op[1])))))
                         num1=(self.op[1])
                         operacion=self.op[0]
+                        if results<=0.00000001:
+                            results=0
                         locacion=(operacion +": " + " TAN(" + num1 + ")"+" = " + str(results))
                         result.append(locacion)
 
@@ -494,15 +501,14 @@ class Analizador:
             try:
                 patron = re.compile(f'^{i}')
                 s = patron.search(_cadena)
-
-                
-                print("| ", self.linea, " | ", self.columna, " | ", s.group())
                 global errorl
-                errorl=str(self.linea)
                 global errorc
-                errorc=str(self.columna)
                 global lex
-                lex=str(s.group())
+                errorl=""
+                errorc=""
+                lex=""
+                print("| ", self.linea, " | ", self.columna, " | ", s.group())
+                
                 if i == L_tokens.TK_TITULO.value:
                     titulo=s.group()
                 self.columna += int(s.end())
@@ -511,9 +517,13 @@ class Analizador:
                 self.aumentarLinea()
             except:
                 # GUARDAR ERROR
-                errores.append("Fila: "+str(errorl)+"Columna: "+str(errorc)+"Lexema: "+str(lex))
                 print("Ocurrio un error")
-                # err='resultado: '+str(_numero)+"cadena: "+str(_cadena)+"Error: Sintaxis"
+                
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 
                 
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
@@ -716,14 +726,10 @@ class Analizador:
         cadena +="    <body>\n"
         cadena +="</html>\n"
         r.writelines(cadena)
+        doc_analizador = 'Resultados_202109715.html'
+        webbrowser.open_new(doc_analizador)
         
  
-        
-
-
-    def imprimirlista():
-        for i in (result):
-            print (i)
 
 
     def htmlerrores():
@@ -780,5 +786,7 @@ class Analizador:
         cadena +="    <body>\n"
         cadena +="</html>\n"
         r.writelines(cadena)
+        doc_errores = 'Errores_202109715.html'
+        webbrowser.open_new(doc_errores)
 
 

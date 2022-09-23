@@ -22,7 +22,7 @@ global nuevoarchivo1
 #Método para abrir archivo
 def abrirArchivo():
         global cuadro
-        cuadro = tk.Text(inicio, width=110, height=29, font=('Open Sans Light', 10), fg="#000000", bg="#FF8087")
+        cuadro = tk.Text(inicio, width=126, height=29, font=('Open Sans Light', 10), fg="#000000", bg="#FF8087")
         cuadro.place(x=250, y=210)  
         global archivo1   
         archivo1 = filedialog.askopenfilename(title="Abrir archivo", initialdir="C:/", filetypes=(("txt files",".txt"),("Todos los archivos",".*")))
@@ -141,7 +141,7 @@ def salirPro():
 
 #Comando para mostrar manual de usuario
 def manualusuario():
-    manualuser = 'I9-202100101-E1.pdf'
+    manualuser = 'ManualDeUsuarioLFP_202109715_Proyecto1.pdf'
     webbrowser.open_new(manualuser)
 
 
@@ -155,7 +155,8 @@ def manualusuario():
 
 #Comando para mostrar manual técnico
 def manualtecnico():
-    print("Manual técnico")
+    manualtecnico = 'ManualTecnicoLFP_202109715_Proyecto1.pdf'
+    webbrowser.open_new(manualtecnico)
 
 
 
@@ -168,8 +169,15 @@ def manualtecnico():
 
 #Comando para mostrar info
 def info():
-    print("info")
-
+    info = tk.Tk()
+    info.geometry("500x500")
+    info["bg"]='#FF8087'
+    info.title("Información personal")
+    fontStylelbl = tkFont.Font(family='Open Sans Light', size='30', weight='bold')
+    lbl1=tk.Label(info, text="Pablo Josué Barahona Luncey", font=fontStylelbl, bg="#FF8087", fg="#222831").place(x=25, y=25)
+    lbl2=tk.Label(info, text="202109715", font=fontStylelbl, bg="#FF8087", fg="#222831").place(x=25, y=75)
+    lbl3=tk.Label(info, text="3560855890101", font=fontStylelbl, bg="#FF8087", fg="#222831").place(x=25, y=125)
+    lbl4=tk.Label(info, text="Lenguajes Formales y Programación B-", font=fontStylelbl, bg="#FF8087", fg="#222831").place(x=25, y=175)
 
 
 
@@ -189,6 +197,7 @@ inicio.geometry("1160x705")
 #labels y botones
 lblincial = tk.Label(inicio, width=138, height=3, font=('Open Sans Light', 10), fg="#FF8087", bg="#FF8087").place(x=25, y=140)
 lblincial = tk.Label(inicio, width=25, height=29, font=('Open Sans Light', 10), fg="#FF8087", bg="#FF8087").place(x=25, y=210)
+cuadro = tk.Label(inicio, width=110, height=29, font=('Open Sans Light', 10), fg="#000000", bg="#FF8087").place(x=250, y=210) 
 fontStyle= tkFont.Font(family='Open Sans Light', size='30', weight='bold')
 fontStylebttn = tkFont.Font(family='Open Sans Light', size='14', weight='bold')
 lbl1 = tk.Label(inicio, width=46, height=2, text="Analizador Léxico", font=fontStyle, fg="#DDDDDD", bg="#30475E").place(x=25, y=25)
