@@ -120,8 +120,15 @@ class Analizador:
             try:
                 patron = re.compile(f'^{i}')
                 s = patron.search(_cadena)
+                global errorl
+                global errorc
+                global lex
+                errorl=""
+                errorc=""
+                lex=""
                 print("| ", self.linea, " | ", self.columna, " | ", s.group())
                 self.columna += int(s.end())
+
                 # GUARDAR EL TOKEN
                 if i == L_tokens.TK_NUMERO.value:
                     _numero = s.group()
@@ -262,13 +269,19 @@ class Analizador:
                         result.append(locacion)
 
 
-                    #GRANDES
-                    if self.num==3 and self.op[0]=="SUMA" and self.op[2]=="SUMA":
-                        print(float(self.op[1])+float(self.op[3])+float(self.op[4]))
+                    # GRANDES
+                    # if self.num==3 and self.op[0]=="SUMA" and self.op[2]=="SUMA":
+                    #     print(float(self.op[1])+float(self.op[3])+float(self.op[4]))
                 _cadena = self.quitar(_cadena, s.end())
                 self.aumentarLinea()
+
             except:
                 # GUARDAR ERROR
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
 
@@ -415,6 +428,12 @@ class Analizador:
 
                     patron = re.compile(f'^{i}')
                     s = patron.search(_cadena)
+                    global errorl
+                    global errorc
+                    global lex
+                    errorl=""
+                    errorc=""
+                    lex=""
                     # GUARDAR EL TOKEN
                     print("| ", self.linea, " | ", self.columna, " | ", s.group())
                     self.columna += int(s.end())
@@ -422,6 +441,11 @@ class Analizador:
                 self.aumentarLinea()
             except:
                 # GUARDAR ERROR
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
 
@@ -446,6 +470,12 @@ class Analizador:
             try:
                 patron = re.compile(f'^{i}')
                 s = patron.search(_cadena)
+                global errorl
+                global errorc
+                global lex
+                errorl=""
+                errorc=""
+                lex=""
                 print("| ", self.linea, " | ", self.columna, " | ", s.group())
                 if i == L_tokens.TK_TEXTO.value:
                     datos.append(s.group())
@@ -455,6 +485,11 @@ class Analizador:
                 self.aumentarLinea()
             except:
                 # GUARDAR ERROR
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
         self.Funcion(_cadena)
@@ -576,6 +611,12 @@ class Analizador:
             try:
                 patron = re.compile(f'^{i}')
                 s = patron.search(_cadena)
+                global errorl
+                global errorc
+                global lex
+                errorl=""
+                errorc=""
+                lex=""
                 print("| ", self.linea, " | ", self.columna, " | ", s.group())
                 self.columna += int(s.end())
 
@@ -592,6 +633,11 @@ class Analizador:
                 _cadena = self.quitar(_cadena, s.end())
                 self.aumentarLinea()
             except:
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 # GUARDAR ERROR
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}
@@ -631,12 +677,23 @@ class Analizador:
                 else:
                     patron = re.compile(f'^{i}')
                     s = patron.search(_cadena)
+                    global errorl
+                    global errorc
+                    global lex
+                    errorl=""
+                    errorc=""
+                    lex=""
                     # GUARDAR EL TOKEN
                     print("| ", self.linea, " | ", self.columna, " | ", s.group())
                     self.columna += int(s.end())
                     _cadena = self.quitar(_cadena, s.end())
                 self.aumentarLinea()
             except:
+                errorl=str(self.linea)
+                
+                errorc=str(self.columna)
+                
+                lex=str(s.group())
                 # GUARDAR ERROR
                 print("Ocurrio un error")
                 return {'resultado':_numero, "cadena":_cadena, "Error": True}

@@ -76,5 +76,5 @@ OP11 MOD: 25%7 = 3
 <Estilo>
     <Titulo Color=AZUL Tamanio=20/>
     <Descripcion Color=VERDE Tamanio=10/>
-    <Contenido Color=ROJO Tamanio=10/>
+    <Contenido Color=NARANJA Tamanio=10/>
 </Estilo> 

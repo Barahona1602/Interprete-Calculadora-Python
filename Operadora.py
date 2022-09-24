@@ -155,7 +155,7 @@ def manualusuario():
 
 #Comando para mostrar manual técnico
 def manualtecnico():
-    manualtecnico = 'ManualTecnicoLFP_202109715_Proyecto1.pdf'
+    manualtecnico = 'ManualTécnicoLFP_202109715_Proyecto1.pdf'
     webbrowser.open_new(manualtecnico)
 
 
